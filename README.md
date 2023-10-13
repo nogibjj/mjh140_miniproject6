@@ -1,4 +1,4 @@
-## SQLite Lab
+## Microsoft Azure DataBricks for SQL Database Management
 
 [![CI](https://github.com/nogibjj/mjh140-sqlite-lab/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/mjh140-sqlite-lab/actions/workflows/cicd.yml)
 
