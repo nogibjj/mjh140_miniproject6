@@ -32,7 +32,7 @@ def averageEFF(c):
     top10 = {}
     for i in range(10):
         top10[results[i][0]] = results[i][1]
-    print(results)
+    print(top10)
 
 
 if __name__ == "__main__":
