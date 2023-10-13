@@ -17,12 +17,12 @@ def sqlConnect():
         access_token=TOKEN,
     )
     c = conn.cursor()
-    c.execute("SELECT * FROM kenpom_stats")
-    rows = c.fetchall()
-    for row in rows:
-        print(row)
+    #c.execute("SELECT * FROM kenpom_data")
+    #rows = c.fetchall()
+    #for row in rows:
+    #    print(row)
 
-    return conn, "Success"
+    return c, "Success"
 
 def sqlClose(conn):
     conn.close()

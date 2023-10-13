@@ -1,5 +1,5 @@
 """
-ETL-Query script
+Databricks query script
 """
 import sys
 import os
@@ -8,52 +8,38 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
 sys.path.insert(0, parent_dir)
 
-from mylib.extract import extract
-from mylib.transform_load import load
-from mylib.query import query
-from mylib.insert import insert
-from mylib.update import update
-from mylib.delete import delete
+from mylib.sqlconn import sqlConnect, sqlClose
 
-# Extract
-print("Extracting data...")
-extract(url="https://raw.githubusercontent.com/jfinocchiaro/marchmadness/master/kenpom.csv", 
-        file_path = "kenpom.csv")
+def averageEFF(c):
+    '''Calculate average combined offense and defense efficiency by team between 2002 and 2018'''
 
-# Transform and load
-print("Transforming data...")
-load(dataset="kenpom.csv",
-     database="kenpom.db",
-     tab = "kenpom_data")
+    query = '''
+        WITH t AS (
+        SELECT t1.Year, t1.Team, t1.AdjustD, t2.AdjustO, (t2.AdjustO - t1.AdjustD) AS Largest_OD_Diff 
+        FROM kenpom_data AS t1
+        INNER JOIN kenpoms_adj_o AS t2 
+        ON t1.Team = t2.Team 
+        AND t1.Year = t2.Year
+        )
 
-# Query
-print("Querying data...")
-query(dbname = "kenpom.db",
-      tab = 'kenpom_data')
+        SELECT t.Team, AVG(t.Largest_OD_Diff) AS Average_EFF
+        FROM t
+        GROUP BY t.Team
+        ORDER BY Average_EFF DESC'''
+    
+    c.execute(query)
+    results = c.fetchall()
+    top10 = {}
+    for i in range(10):
+        top10[results[i][0]] = results[i][1]
+    print(results)
 
-# Insert
-new_data = {
-    'Year':'2018', 
-    'Rank': '1',
-    'Team': 'Villinova',
-    'Conf': 'BE',
-    'Wins': '36',
-    'Losses': '4'
-    }
-insert(dbname = "kenpom.db",
-      tab = 'kenpom_data',
-      new_data = new_data)
 
-#Update
-update(dbname = 'kenpom.db',
-       tab = 'kenpom_data',
-       col = 'Conference',
-       n_val = 'BE',
-       cond_col = 'Year',
-       cond_val = '2018')
+if __name__ == "__main__":
+      print("Connecting to Azure Databricks - Kenpoms Database")
+      cursor, status = sqlConnect()
 
-#Delete
-delete(dbname = 'kenpom.db',
-       tab = 'kenpom_data',
-       cond_col = 'Year',
-       cond_val = '2018')
+      averageEFF(cursor)
+
+      print("Closing connection to database.")
+      sqlClose(cursor)
