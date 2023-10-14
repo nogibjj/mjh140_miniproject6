@@ -1,9 +1,9 @@
 import os
+import logging
 from databricks import sql
 from dotenv import load_dotenv
 from urllib3.exceptions import MaxRetryError
 from databricks.sql.exc import RequestError
-import logging
 
 logging.basicConfig(filename='error_log.txt', 
                     level=logging.ERROR, 
