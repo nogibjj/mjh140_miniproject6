@@ -1,6 +1,6 @@
-## Microsoft Azure DataBricks for SQL Database Management
+## College Basketball Most Dominant Teams 2002 - 2017
 
-
+[![CI](https://github.com/nogibjj/mjh140_miniproject6/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/mjh140_miniproject6/actions/workflows/cicd.yml)
 
 ### Summary:
 
@@ -9,7 +9,7 @@ The objective of this project is to evaluate college basketball teams on their a
 * `Adjusted Offense`: Points Scored per 100 Posessions
 * `Adjusted Defense`: Points Allowed per 100 Posessions
 
-Each year, every team in NCAA Division 1 basketball is assigned a cumulative score for both of the above adjusted metrics. For this analysis, the adjusted defense was subtracted from the adjusted offense to create one "Combined Adjusted O/D" score to represent a teams overall performance on both offense and defense. 
+Each year, every team in NCAA Division 1 basketball is assigned a cumulative score for both of the adjusted offense and defense metrics. For this analysis, the adjusted defense was subtracted from the adjusted offense to create one "Combined Adjusted O/D" score to represent a teams overall performance on both offense and defense. 
 
 Example: Gonzaga 2002
 * `Adjusted Offense`: 115.60
