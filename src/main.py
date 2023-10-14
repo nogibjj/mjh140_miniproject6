@@ -3,6 +3,8 @@ Databricks query script
 """
 import sys
 import os
+import pandas as pd
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
@@ -29,15 +31,18 @@ def averageEFF(c):
     
     c.execute(query)
     results = c.fetchall()
-    top10 = {}
-    for i in range(10):
-        top10[results[i][0]] = results[i][1]
-    print(top10)
+    top10 = {results[i][0]: results[i][1] for i in range(10)}
+    top10_df = pd.DataFrame(list(top10.items()), columns=["Team", "Combined Adjusted O/D"])
+    print(top10_df)
 
 
 if __name__ == "__main__":
       print("Connecting to Azure Databricks - Kenpoms Database")
       cursor, status = sqlConnect()
+
+      if status != "Success":
+           print('Error Occurred. Check error_log.txt.')
+           sys.exit()
 
       averageEFF(cursor)
 
